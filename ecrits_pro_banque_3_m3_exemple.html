@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exemple commenté — Un mail de conseiller, étape par étape</title>
+<style>
+:root{--prune:#8C1E70;--prune-fonce:#5E1349;--prune-clair:#F4E6EE;--accent:#C77BAA;
+ --vert:#283C28;--gris:#3C3C3C;--gris-moyen:#8A7A85;--filet:#E8DCE5;--creme:#FAF6F8;
+ --ok:#2F7A4F;--ko:#B23B3B;--amb:#B5852A;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--creme);color:var(--gris);
+ font-family:"Nunito","Segoe UI",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.62}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px 60px}
+header.bandeau{background:var(--prune-fonce);color:#fff;padding:18px 0;border-bottom:4px solid var(--accent)}
+header.bandeau .wrap{padding-bottom:0}
+.chapitre{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#EAD3E3}
+.chapitre span{color:var(--accent);margin:0 6px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:27px;line-height:1.25;margin:8px 0 4px;color:#fff}
+.sous{color:#EAD3E3;font-size:14.5px;margin:0}
+h2{font-family:Georgia,"Times New Roman",serif;font-size:20px;color:var(--prune-fonce);
+ margin:34px 0 0;padding-bottom:8px;border-bottom:2px solid var(--filet)}
+h2 .num{color:var(--accent);margin-right:8px}
+h3{font-size:15px;color:var(--vert);margin:20px 0 8px;letter-spacing:.02em}
+.carte{background:#fff;border:1px solid var(--filet);border-radius:10px;padding:20px 22px;margin:18px 0;
+ box-shadow:0 1px 2px rgba(94,19,73,.05)}
+.enc{background:var(--prune-clair);border-left:5px solid var(--prune);padding:14px 18px;
+ border-radius:0 8px 8px 0;margin:18px 0;font-size:15.2px}
+.enc .t{display:block;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+ font-weight:800;color:var(--prune-fonce);margin-bottom:6px}
+.enc.al{background:#FBF4F4;border-left-color:var(--ko)}.enc.al .t{color:var(--ko)}
+.enc.ci{background:#FCF8F0;border-left-color:var(--amb)}.enc.ci .t{color:#8A6418}
+.situ{background:#FCF9FB;border:1px dashed var(--filet);border-radius:8px;padding:16px 18px;margin:16px 0;font-size:15.2px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.duo>div{background:#fff;border:1px solid var(--filet);border-radius:9px;padding:15px 17px;font-size:14.8px}
+.duo .h{font-weight:800;color:var(--prune-fonce);margin-bottom:7px;font-size:14.5px}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.tri>div{background:#fff;border:1px solid var(--filet);border-radius:9px;padding:14px 15px;font-size:14.3px}
+.quad{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.quad>div{background:#fff;border:1px solid var(--filet);border-radius:9px;padding:12px 13px;font-size:13.6px}
+.quad .h{font-weight:800;color:var(--prune-fonce);margin-bottom:6px;font-size:13px;
+ text-transform:uppercase;letter-spacing:.04em}
+.tri .h{font-weight:800;color:var(--prune-fonce);margin-bottom:6px;font-size:13.5px;
+ text-transform:uppercase;letter-spacing:.05em}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14.8px;background:#fff}
+th,td{border:1px solid var(--filet);padding:9px 12px;text-align:left}
+thead th{background:var(--prune-clair);color:var(--prune-fonce);font-size:13.5px}
+tbody th{font-weight:600;color:var(--gris)}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.tot td,tr.tot th{background:#FBF3F8;font-weight:800;color:var(--prune-fonce)}
+.dl{display:inline-flex;align-items:center;gap:9px;background:var(--prune);color:#fff;text-decoration:none;
+ padding:11px 20px;border-radius:8px;font-weight:700;font-size:15px;margin:20px 0 4px}
+.dl:hover{background:var(--prune-fonce)}
+ol.q{padding-left:0;list-style:none;counter-reset:q}
+ol.q>li{margin:16px 0;padding-left:38px;position:relative}
+ol.q>li::before{counter-increment:q;content:counter(q);position:absolute;left:0;top:1px;
+ width:26px;height:26px;border-radius:50%;background:var(--prune-clair);color:var(--prune-fonce);
+ font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center}
+b,strong{color:var(--vert)}
+footer{text-align:center;font-size:12.5px;color:var(--gris-moyen);padding:26px 18px 12px;
+ border-top:1px solid var(--filet);margin-top:44px}
+@media(max-width:860px){.quad{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.duo,.tri,.quad{grid-template-columns:1fr}h1{font-size:22px}}
+@media print{body{background:#fff}.dl{display:none}header.bandeau{background:#5E1349 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.mail{background:#fff;border:1px solid var(--filet);border-radius:10px;padding:0;margin:16px 0;overflow:hidden}
+.mail .ent{background:#F7F1F5;border-bottom:1px solid var(--filet);padding:10px 16px;font-size:14px}
+.mail .ent b{color:var(--prune-fonce)}
+.mail .txt{padding:14px 18px;font-size:15.2px}
+.mail p{margin:0 0 10px}
+.err{background:#FDECEC;border-bottom:2px solid var(--ko);padding:0 2px;border-radius:3px}
+.cor{display:none;background:#E9F6EE;border-bottom:2px solid var(--ok);padding:0 2px;border-radius:3px;color:var(--ok);font-weight:700}
+.nf{font-size:11px;vertical-align:super;font-weight:800;color:var(--ko)}
+body.vu .err{text-decoration:line-through;background:none;border:0;color:var(--gris-moyen)}
+body.vu .cor{display:inline}
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--prune);color:#fff;border:0;
+ padding:12px 22px;border-radius:8px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer}
+.btn:hover{background:var(--prune-fonce)}
+.liste{display:none}body.vu .liste{display:block}
+</style></head>
+<body>
+<header class="bandeau"><div class="wrap">
+ <div class="chapitre">Écrits professionnels · banque 3/5 <span>/</span> Module 3</div><h1>Un mail de conseiller, étape par étape</h1><p class="sous">Exemple commenté — Les six étapes d'un mail</p>
+</div></header>
+<div class="wrap">
+
+<h2><span class="num">1 ·</span>Le mail</h2>
+<div class="carte">
+<p>Une conseillère répond à une cliente qui a appelé l'agence pour une demande de crédit à la consommation. Repérez les six étapes avant de lire le commentaire.</p>
+<div class="mail">
+ <div class="ent"><b>Objet :</b> Votre projet crédit – pièces à fournir</div>
+ <div class="txt">
+ <p><span class="et e1">1</span> Bonjour Madame Lefèvre,</p>
+ <p><span class="et e2">2</span> Vous m'avez appelée ce matin pour financer l'achat de votre cuisine. Nous avons fixé un rendez-vous le jeudi 27 novembre à 10 heures.</p>
+ <p><span class="et e3">3</span> Afin d'étudier votre demande dès ce rendez-vous, je vous remercie d'apporter les pièces suivantes :</p>
+ <ul><li>une pièce d'identité en cours de validité ;</li><li>un justificatif de domicile de moins de trois mois ;</li><li>vos trois derniers bulletins de salaire ;</li><li>votre dernier avis d'imposition ;</li><li>le devis de la cuisine.</li></ul>
+ <p>Ces documents me permettront de vérifier votre capacité de remboursement, comme la réglementation l'impose avant toute offre.</p>
+ <p><span class="et e4">4</span> Je reste à votre écoute pour toute précision et serai ravie de vous accompagner dans votre projet.</p>
+ <p><span class="et e5">5</span> Belle journée,</p>
+ <p><span class="et e6">6</span> Sophie Martel<br>Conseillère clientèle — Agence de Wasquehal<br>03 20 00 00 00</p>
+ </div>
+</div>
+</div>
+
+<h2><span class="num">2 ·</span>Les six étapes</h2>
+<div class="carte">
+<table><thead><tr><th>N°</th><th>Étape</th><th>Ce qu'elle fait ici</th></tr></thead><tbody>
+<tr><td><b>1</b></td><td>Formule d'appel</td><td>Personnalisée : « Bonjour Madame Lefèvre ». Jamais « Bonjour » seul, trop sec.</td></tr>
+<tr><td><b>2</b></td><td>Contexte</td><td>Rappelle ce qui s'est passé — l'appel, le projet, le rendez-vous — en deux phrases courtes, de quinze à vingt mots au maximum. La cliente sait immédiatement de quoi on parle.</td></tr>
+<tr><td><b>3</b></td><td>Informations, explications</td><td>Une phrase entière annonce la liste à puces : « je vous remercie d'apporter les pièces suivantes », et non « merci de… », qui n'est pas une phrase. Puis la raison : la vérification de solvabilité vue en IOBSP journée 3.</td></tr>
+<tr><td><b>4</b></td><td>Formule de convivialité</td><td>Une phrase avec un verbe, qui garde le lien et propose son aide : « Je reste à votre écoute pour toute précision et serai ravie de vous accompagner dans votre projet. »</td></tr>
+<tr><td><b>5</b></td><td>Formule de politesse</td><td>Courte et moderne pour un mail : « Belle journée, » — sans verbe, donc suivie d'une virgule.</td></tr>
+<tr><td><b>6</b></td><td>Bloc signature</td><td>Prénom, nom, fonction, agence, téléphone : selon les usages de l'établissement.</td></tr>
+</tbody></table>
+<div class="enc al"><span class="t">ET L'OBJET ?</span>Il n'est pas une des six étapes, mais c'est lui qui fait ouvrir le mail : cinq à sept mots au maximum, précis, avec un tiret pour préciser. Ici : « Votre projet crédit – pièces à fournir ».</div>
+<div class="enc"><span class="t">MOYEN MNÉMOTECHNIQUE</span>Appel · Contexte · Informations · Convivialité · Politesse · Signature. Les six étapes sont toujours là, dans cet ordre, même dans un mail de trois lignes.</div>
+</div>
+<style>.et{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--prune);color:#fff;font-size:11px;font-weight:800;margin-right:6px;vertical-align:1px}</style>
+
+
+<footer>TMK Performances - N° Siret : 49841924100027 - Code NAF : 8559A</footer>
+</div>
+</body></html>
